@@ -1,7 +1,27 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+require 'faker'
+
+puts "💻 Seeding industries..."
+
+Industry.create([
+    {industry: "Data Science"},
+    {industry: "Software Development"},
+    {industry: "App Development"},
+    {industry: "Cybersecurity"},
+    {industry: "Computer Systems"},
+    {industry: "Product Management"},
+    {industry: "Design"},
+    {industry: "Information Technology"}
+])
+
+puts "👩🏼‍💻 Seeding professionals..."
+
+40.times do 
+    Professional.create(
+        full_name: Faker::Name.name,
+        linkedin: Faker::Internet.url(host: 'linkedin.com'),
+        image_url: Faker::LoremFlickr.colorized_image, 
+        bio: Faker::Lorem.paragraph(sentence_count: 5), 
+        industry_id: Faker::Number.between(from: 1, to: 8), 
+        current_company: Faker::Company.name
+    )
+end

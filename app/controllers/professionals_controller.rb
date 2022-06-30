@@ -1,0 +1,3 @@
+class ProfessionalsController < ApplicationController
+
+end
