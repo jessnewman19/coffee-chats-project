@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'; 
+import {useHistory} from "react-router-dom"
 import styled from 'styled-components';
 import FormDiv from '../styles/FormDiv';
 import Label from '../styles/Label';
@@ -6,53 +7,32 @@ import Input from '../styles/Input';
 import Button from '../styles/Button';
 import Error from '../styles/Error';
 
-function Signup({onLogin}) {
+function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
     const [fullName, setFullName] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [image, setImage] = useState("")
     const [bio, setBio] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-
-    //Industry drop down
-    const [industries, setIndustries] = useState([])
-    const [selectedIndustry, setSelectedIndustry] = useState("")
-    const [selectedIndustryId, setSelectedIndustryId] = useState("")
-
-    useEffect(() => {
-        fetch('/industries')
-        .then(r => { 
-            r.json().then(industry => setIndustries(industry))
-        })
-    }, [])
-
-    useEffect(() => { 
-        if (selectedIndustry !== "") { 
-            const filteredIndustry = industries.find(industry => { 
-                return industry.industry === selectedIndustry
-            })
-            setSelectedIndustryId(filteredIndustry.id)
-        }
-    }, [selectedIndustry])
+    const history = useHistory()
 
     function handleSignup(e) { 
         e.preventDefault()
         setErrors([])
         setIsLoading(true)
+        const formData = new FormData()
+            formData.append('full_name', fullName)
+            formData.append('username', username)
+            formData.append('password', password)
+            formData.append('password_confirmation', passwordConfirmation)
+            formData.append('industry_id', parseInt(selectedIndustryId))
+            formData.append('image', image)
+            formData.append('bio', bio)
         fetch('/signup', { 
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ 
-                full_name: fullName, 
-                username, 
-                password,
-                password_confirmation: passwordConfirmation, 
-                industry_id: parseInt(selectedIndustryId), 
-                bio,
-            }),
+            method: "POST", 
+            body: formData
         }).then(r => { 
             setIsLoading(false)
             if (r.ok) { 
@@ -61,6 +41,7 @@ function Signup({onLogin}) {
                 r.json().then(error => setErrors(error.errors))
             }
         })
+        history.push("/dashboard")
     }
 
   return (
@@ -100,6 +81,16 @@ function Signup({onLogin}) {
                 value={passwordConfirmation}
                 onChange={(e => setPasswordConfirmation(e.target.value))}
             />
+        </FormDiv>
+        <FormDiv>
+            <Label>Upload profile photo: </Label>
+            <Input
+                type="file"
+                accept="image/png, image/jpg, image/gif, image/jpeg"
+                id="image"
+                onChange={(e => setImage(e.target.files[0]))}
+            >
+            </Input>
         </FormDiv>
         <FormDiv> 
             <Label>Industry of interest: </Label>

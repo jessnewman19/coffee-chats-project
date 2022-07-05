@@ -25,7 +25,10 @@ export const NavLink = styled(Link)`
     transition: all .5s ease;
     &:hover{
         transform: scale(1.08);
-        opacity: 0.8; 
+        opacity: 0.8;
+    }
+    &.active{ 
+        text-decoration: underline;
     }
 `
 

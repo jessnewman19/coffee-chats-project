@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {useHistory} from "react-router-dom"
 
 //styled components 
 import FormDiv from '../styles/FormDiv';
@@ -12,6 +13,7 @@ function Login({onLogin}) {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    let history = useHistory()
 
  function handleSubmit(e) { 
         e.preventDefault()
@@ -27,9 +29,10 @@ function Login({onLogin}) {
             if (r.ok) { 
                 r.json().then(user => onLogin(user))
             } else { 
-                r.json().then(err => setErrors(err.errors))
+                r.json().then(error => setErrors(error.errors))
             }
         })
+        history.push("/dashboard")
     }
 
   return (

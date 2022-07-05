@@ -4,7 +4,7 @@ import Signup from './Signup';
 import styled from 'styled-components'
 import Button from '../styles/Button';
 
-function Home({onLogin}) {
+function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
     const [showLogin, setShowLogin] = useState(true);
 
    return (
@@ -23,7 +23,7 @@ function Home({onLogin}) {
             </>
       ) : (
             <>
-                <Signup onLogin={onLogin} />
+                <Signup onLogin={onLogin} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} />
                 <Divider />
                 <p>
                 Already have an account? &nbsp;

@@ -1,4 +1,6 @@
 require 'faker'
+Industry.delete_all 
+Professional.delete_all
 
 puts "💻 Seeding industries..."
 

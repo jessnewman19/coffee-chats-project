@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+input[type=file]::-webkit-file-upload-button {
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer; 
+  padding: 3px, 4px; 
+  border-width: thin;
+}
