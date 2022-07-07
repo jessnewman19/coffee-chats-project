@@ -18,7 +18,7 @@ class UsersController < ApplicationController
         render json: @current_user
     end
 
-    def update 
+    def update
         @current_user.update(update_params)
         render json: @current_user
     end
@@ -26,11 +26,11 @@ class UsersController < ApplicationController
     private 
     
     def user_params 
-        params.permit(:full_name, :username, :password, :password_confirmation, :industry_id, :image, :bio)
+        params.permit(:full_name, :username, :password, :password_confirmation, :industry_id, :image, :bio).select {|x,v| v.present?}
     end
 
     def update_params 
-        params.permit(:id, :bio, :username, :industry_id)
+        params.permit(:bio, :username, :industry_id)
     end
 
 end

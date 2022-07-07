@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import NavBar from "./NavBar";
 import Dashboard from "./Dashboard";
+import Connections from "./Connections";
 
 function App() {
   const [user, setUser] = useState(null)
+  const [meetings, setMeetings] = useState([])
   const [industries, setIndustries] = useState([])
   const [selectedIndustry, setSelectedIndustry] = useState("")
   const [selectedIndustryId, setSelectedIndustryId] = useState("")
 
+  //Upon every rerender/refresh the user stays put
   useEffect(() => {
     fetch('/me')
     .then(r => { 
@@ -20,6 +23,7 @@ function App() {
   }, [])
 
   //Handle industries being populated on Signup, Dashboard, and Connections
+  //Dependency array on first render
   useEffect(() => {
       fetch('/industries')
       .then(r => { 
@@ -27,6 +31,8 @@ function App() {
       })
   }, [])
 
+  //Run whenever selectedIndustry is populated
+  //Do I need the useEffect here?
   useEffect(() => { 
       if (selectedIndustry !== "") { 
           const filteredIndustry = industries.find(industry => { 
@@ -36,26 +42,31 @@ function App() {
       }
   }, [selectedIndustry])
 
+  useEffect(() => { 
+    fetch('/meetings')
+      .then(r => { 
+        r.json().then(meeting => setMeetings(meeting))
+      })
+  }, [setMeetings])
+
   //Handle whether to show signup or login page
   if (!user) return <Home onLogin={setUser} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries}/>
 
   return (
-    <BrowserRouter>
+    <div className="App">
     <NavBar setUser={setUser}/>
-      <div className="App">
         <Switch>
           <Route path="/dashboard">
-            <Dashboard setUser={setUser} currentUser={user} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries}/>
+            <Dashboard setUser={setUser} user={user} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} meetings={meetings}/>
           </Route>
           <Route path="/connections">
-            <h1>Connections</h1>
+            <Connections user={user} setMeetings={setMeetings} meetings={meetings}/>
           </Route> 
           <Route path="/about">
             <h1>About</h1>
           </Route> 
         </Switch>
       </div>
-    </BrowserRouter>
   );
 }
 

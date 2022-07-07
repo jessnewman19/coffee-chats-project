@@ -1,5 +1,5 @@
 class MeetingSerializer < ActiveModel::Serializer
-  attributes :meeting_date, :meeting_time
+  attributes :id, :meeting
   has_one :user
   has_one :professional
   

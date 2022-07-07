@@ -6,8 +6,3 @@ export const Image = styled.img`
     border-radius: 50%;
     object-fit: fill;
 `
-
-// margin-left: 20px; 
-// display: flex; 
-// justify-content: flex-start;
-// overflow: hidden;

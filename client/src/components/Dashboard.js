@@ -1,112 +1,95 @@
-import React, {useState} from 'react'; 
+import React, {useEffect, useState} from 'react'; 
 import {Image} from '../styles/Image';
 import Button from '../styles/Button';
 import styled from 'styled-components';
-import Error from '../styles/Error';
+import MeetingCard from './MeetingCard';
 
-function Dashboard({setUser, currentUser, selectedIndustryId, setSelectedIndustry, industries}) {
-    const [bio, setBio] = useState(currentUser.bio)
-    const [username, setUsername] = useState(currentUser.username)
-    const [industry, setIndustry] =useState(currentUser.industry.id)
-    const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState([]);
+function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings}) {
+    const [bio, setBio] = useState(user.bio)
+    const [industry, setIndustry] = useState(user.industry.industry)
+    const [username, setUsername] = useState(user.username)
 
-    console.log(bio)
-
-    function handleBioChange(e) { 
-        const {name, value} = e.target
-        console.log(e.target)
-        setBio(prevBio => console.log(prevBio))
-        // setBio((prevBio => ({...prevBio, [name]: value})))
-      }
-
-      function handleUsernameChange(e) { 
-        const {name, value} = e.target
-        console.log(name, value)
-        setUsername((prevUsername => ({...prevUsername, [name]: value})))
-      }
-
-      function handleIndustryChange(e) { 
-        setSelectedIndustry(e.target.value)
-        setIndustry(selectedIndustryId)
-      }
+      //Sets new industry ID when selected industry is changed on user dashboard
+      useEffect(() => { 
+        setSelectedIndustry(industry)
+    }, [industry])
 
       const handleKeyDown = (event) => {
         if (event.key === "Enter" || event.key === "Escape") {
         event.target.blur();
         }
+        // meetings.map(meeting => console.log(meeting.meeting.toLocaleString()))
       }
 
-      function handleUpdatedForm(e) { 
+      function handleSubmit(e) { 
         e.preventDefault()
-        setErrors([])
-        setIsLoading(true)
-        const formData = new FormData()
-            formData.append('username', username)
-            formData.append('industry_id', parseInt(selectedIndustryId))
-            formData.append('bio', bio)
-        fetch(`/users/${currentUser.id}`, {
-            method: "PATCH",
-            body: formData
-        }).then(r => { 
+        fetch(`/users/${user.id}`, { 
+            method: "PATCH", 
+            headers: {
+                "Content-Type": "application/json",
+              },
+            body: JSON.stringify({ 
+                bio, 
+                username, 
+                industry_id: parseInt(selectedIndustryId),
+            }),
+        }).then((r) => { 
             if (r.ok) { 
                 r.json().then(user => setUser(user))
+                alert("Changes have been made!")
             } else { 
-                r.json().then(error => console.log(error.errors))
+                r.json().then(err => console.log(err.errors))
             }
         })
       }
 
   return (
-    <form onSubmit={(e) => handleUpdatedForm(e)}>
-        <div>
-            <Header>{`Welcome, ${currentUser.full_name}!`}</Header>
-        </div>
-        <Wrapper>
-            <Image src={currentUser.image} alt="Profile photo" />
-            <H2>Bio:</H2>
-            <EditTextArea
-                type="text"
-                name="bio"
-                value={bio}
-                onChange={(e) => handleBioChange(e)}
-                onKeyDown={handleKeyDown}
-            ></EditTextArea>
-        </Wrapper>
-        <Wrapper>
-            <H2>Username: </H2>
-            <EditInput
+    <div>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <Header>{`Welcome, ${user.full_name}!`}</Header>
+            </div>
+            <Wrapper>
+                <Image src={user.image} alt="Profile photo" />
+                <H2>Bio:</H2>
+                <EditTextArea
                     type="text"
-                    name="username"
-                    value={username}
-                    onChange={(e) => handleUsernameChange(e)}
+                    name="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                     onKeyDown={handleKeyDown}
-            ></EditInput>
-        </Wrapper>
-       <Wrapper>
-        <H2>Selected industry: </H2>
-            <EditSelect
-                    name="industries"
-                    id="industries"
-                    defaultValue={currentUser.industry.industry}
-                    onChange={(e) => handleIndustryChange(e)}
-                    onKeyDown={handleKeyDown}
-            >
-                <option value={industry} disabled>{currentUser.industry.industry}</option>
-                {industries.map(industry => { 
-                    return <option key={industry.id} value={industry.industry}>{industry.industry}</option>
-                })}
-            </EditSelect>
-        </Wrapper>
+                ></EditTextArea>
+            </Wrapper>
+            <Wrapper>
+                <H2>Username: </H2>
+                <EditInput
+                        type="text"
+                        name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                ></EditInput>
+            </Wrapper>
         <Wrapper>
-            <Button bg ='#000080' color='#fff' type="submit">{isLoading ? "Loading..." : "Submit Changes"}</Button>
-        </Wrapper>
-        <div>
-            {errors.map(error => (
-                <Error key={error}>{error}</Error>
-            ))} 
+            <H2>Selected industry: </H2>
+                <EditSelect
+                        name="industry"
+                        id="industry"
+                        defaultValue={industry}
+                        onChange={(e) => setIndustry(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                >
+                    <option value={industry} >{user.industry.industry}</option>
+                    {industries.map(industry => { 
+                        return <option key={industry.id} value={industry.industry}>{industry.industry}</option>
+                    })}
+                </EditSelect>
+            </Wrapper>
+            <Wrapper>
+                <Button bg ='#000080' color='#fff' type="submit">Submit Changes</Button>
+            </Wrapper>
+            </form>
         </div>
-        </form>
   )
 }
 

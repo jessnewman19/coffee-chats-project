@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 //styled components 
 import FormDiv from '../styles/FormDiv';
@@ -13,7 +13,7 @@ function Login({onLogin}) {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    let history = useHistory()
+    const history = useHistory()
 
  function handleSubmit(e) { 
         e.preventDefault()
