@@ -14,10 +14,16 @@ class MeetingsController < ApplicationController
         render json: new_meeting, status: :created
     end
 
+    def destroy
+        meeting = Meeting.find(params[:id])
+        meeting.destroy
+        head :no_content
+    end
+
     private 
 
     def meeting_params
-        params.permit(:meeting, :professional_id)
+        params.permit(:meeting_date, :meeting_time, :professional_id)
     end 
 
 end

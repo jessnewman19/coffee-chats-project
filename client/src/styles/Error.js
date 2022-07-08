@@ -11,6 +11,7 @@ function Error({ children }) {
 
 const Wrapper = styled.div`
   color: red;
+  font-family: 'Lato', sans-serif;
   background-color: mistyrose;
   border-radius: 6px;
   display: flex;

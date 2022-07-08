@@ -1,5 +1,6 @@
 import React, {useState} from 'react'; 
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import {IoLogoLinkedin} from "react-icons/io5"; 
 // import Calendar from 'react-calendar'; 
 // import 'react-calendar/dist/Calendar.css';
@@ -15,7 +16,7 @@ import { purple } from '@mui/material/colors';
 const theme = createTheme({
     typography: {
       fontSize: 12,
-      fontFamily: "Segoe UI, Helvetica, Arial, sans-serif",
+      fontFamily: 'Lato, sans-serif',
     },
     palette: {
       primary: {
@@ -28,10 +29,15 @@ const theme = createTheme({
   });
 
 function ConnectionsCard({professional, setMeetings, meetings}) {
-    const [meeting, setMeeting] = useState(new Date('2014-08-18T21:11:54'))
+    const [meeting, setMeeting] = useState(new Date('2022-08-18T21:11:54'))
+    const [meetingDate, setMeetingDate] = useState("")
+    const [meetingTime, setMeetingTime] = useState("")
+    const history = useHistory()
 
     const handleChange = (newValue) => {
-        setMeeting(newValue);
+        setMeeting(newValue)
+        setMeetingDate(newValue.toDateString())
+        setMeetingTime(newValue.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))
       };
 
     const handleSubmit = (e) => { 
@@ -41,7 +47,10 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
             headers: { 
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({meeting, professional_id: professional.id})
+            body: JSON.stringify({
+                meeting_date: meetingDate, 
+                meeting_time: meetingTime, 
+                professional_id: professional.id})
         }).then((r) => { 
             if (r.ok) { 
                 r.json().then(meeting => setMeetings([...meetings, meeting]))
@@ -49,6 +58,7 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
                 r.json().then(err => console.log(err.errors))
             }
         })
+        history.push("/dashboard")
     }
 
   return (
@@ -75,7 +85,7 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
                     />
                     </Stack>
                 </LocalizationProvider>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" bg ='#4F646F' color='#F4FAFF'>Submit</Button>
             </ThemeProvider>
         </Form>
     </Wrapper>
@@ -90,11 +100,12 @@ const Wrapper = styled.section`
     padding: 16px;
     display: flex;
     border-radius: 15px;
-    border: 1px solid rgba(50, 115, 220, 0.2);
-    box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+    border: 1px solid rgba(183,173,207, 0.2);
+    box-shadow: 12px 12px 2px 1px rgba(183,173,207, .9);
 `
 
 const Section = styled.section`
+    font-family: 'Lato', sans-serif;
     padding-left: 18px;
     width: 40%;
 `
@@ -118,12 +129,14 @@ const Logo = styled.div`
 `
 
 const H3 = styled.h3`
+    font-family: 'Lato', sans-serif;
     text-size: 10px;
     display: flex;
     height: 30px;
 `
 
 const Form = styled.form`
+    font-family: 'Lato', sans-serif;
     width: vw;
     display: flex;
     flex-wrap: wrap;
@@ -133,6 +146,7 @@ const Form = styled.form`
 `
 
 const Button = styled.button`
+    font-family: 'Lato', sans-serif;
     border-radius: 100px;
     display: flex;
     border: none;

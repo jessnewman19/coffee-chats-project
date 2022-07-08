@@ -111,7 +111,7 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) 
             ></TextArea>
         </FormDiv>
         <FormDiv> 
-            <Button bg ='#000080' color='#fff' type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
+            <Button bg ='#4F646F' color='#F4FAFF' type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
         </FormDiv>
         <FormDiv>
             {errors.map(error => (
@@ -131,6 +131,8 @@ const Select = styled.select`
     font-size: 1rem;
     line-height: 1.5;
     padding: 8px;
+    background-color: #DEE7E7;
+    font-family: 'Lato', sans-serif;
 `
 
 const TextArea = styled.textarea`
@@ -143,6 +145,8 @@ const TextArea = styled.textarea`
     font-size: 1rem;
     line-height: 1.5;
     padding: 4px;
+    background-color: #DEE7E7;
+    font-family: 'Lato', sans-serif;
 `
 
 export default Signup

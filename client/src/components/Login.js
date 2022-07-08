@@ -56,7 +56,7 @@ function Login({onLogin}) {
             />
         </FormDiv>
         <FormDiv> 
-            <Button type="submit" bg ='#000080' color='#fff'>
+            <Button type="submit" bg ='#4F646F' color='#F4FAFF'>
                 {isLoading ? "Loading..." : "Login"}
             </Button>
         </FormDiv>

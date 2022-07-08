@@ -8,8 +8,10 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
     const [showLogin, setShowLogin] = useState(true);
 
    return (
-    <Div>
-      <Wrapper>
+    <div style={{display: 'flex'}}>
+      <VisualWrapper>
+      </VisualWrapper>
+      <LoginWrapper>
           <Header>Welcome</Header>
           {showLogin ? (
               <>
@@ -17,7 +19,7 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
               <Divider />
               <p>
                   Don't have an account? &nbsp;
-                  <Button bg ='#000080' color='#fff' onClick={() => setShowLogin(false)}>
+                  <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(false)}>
                   Sign Up
                   </Button>
               </p>
@@ -28,38 +30,44 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
                   <Divider />
                   <p>
                   Already have an account? &nbsp;
-                  <Button bg ='#000080' color='#fff' onClick={() => setShowLogin(true)}> Log in</Button>
+                  <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(true)}> Log in</Button>
                   </p>
               </>
           )
       }
-      </Wrapper>
-    </Div>
+      </LoginWrapper>
+      </div>
   )
 }
 
 const Header = styled.h1`
+    font-family: 'Lato', sans-serif;
     font-size: 3rem;
     color: #ADD8E6;
     margin: 8px 0 16px;
 `
+const VisualWrapper=styled.section`
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    background-image: url("https://images.unsplash.com/photo-1573884054824-95ec03df17da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80");
+    background-position: 50% 50%;
+    background-size: cover;
+    `
 
-const Wrapper = styled.section`
-  max-width: 500px;
-  margin: 12rem auto;
-  padding: 16px;
+const LoginWrapper = styled.section`
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
 `;
 
 const Divider = styled.hr`
-  border: none;
-  border-bottom: 1px solid #ccc;
-  margin: 16px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
 `;
-
-const Div = styled.div`
-height: vh;
-width: vw;
-background-image: url(https://images.unsplash.com/photo-1511759066510-46958c3fffa0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80);
-`
 
 export default Home

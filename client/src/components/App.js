@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from "react";
+import {ThemeProvider} from 'styled-components';
+import GlobalStyles from "../styles/Global";
 import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import NavBar from "./NavBar";
@@ -54,10 +56,11 @@ function App() {
 
   return (
     <div className="App">
+    <GlobalStyles />
     <NavBar setUser={setUser}/>
         <Switch>
           <Route path="/dashboard">
-            <Dashboard setUser={setUser} user={user} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} meetings={meetings}/>
+            <Dashboard setUser={setUser} user={user} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} meetings={meetings} setMeetings={setMeetings}/>
           </Route>
           <Route path="/connections">
             <Connections user={user} setMeetings={setMeetings} meetings={meetings}/>

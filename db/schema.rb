@@ -49,7 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_151403) do
   end
 
   create_table "meetings", force: :cascade do |t|
-    t.datetime "meeting"
+    t.string "meeting_date"
+    t.string "meeting_time"
     t.bigint "user_id", null: false
     t.bigint "professional_id", null: false
     t.datetime "created_at", null: false

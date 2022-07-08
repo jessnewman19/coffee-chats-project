@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
     include ActionController::Cookies
 
     rescue_from ActiveRecord::RecordInvalid, with: :invalid 
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     #Make sure user is logged in before doing any other actions
     before_action :authorize 
@@ -20,5 +21,9 @@ class ApplicationController < ActionController::API
     def invalid(invalid)
       render json: {errors: invalid.record.errors.full_messages}, status: :unprocessable_entity
     end
+
+    def not_found 
+      render json: { error: "Not found" }, status: 404
+  end
   
 end

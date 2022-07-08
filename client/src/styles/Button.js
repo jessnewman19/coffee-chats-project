@@ -4,11 +4,12 @@ import styled from "styled-components";
 //#33 is charcoal
 
 const Button = styled.button`
+    font-family: 'Lato', sans-serif;
     border-radius: 100px;
     border: none;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
     padding: 10px 40px;
     background-color: ${({bg}) => bg || '#fff'};
     color: ${({color}) => color || '#333'};

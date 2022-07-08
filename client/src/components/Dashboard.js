@@ -4,10 +4,11 @@ import Button from '../styles/Button';
 import styled from 'styled-components';
 import MeetingCard from './MeetingCard';
 
-function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings}) {
+function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings, setMeetings}) {
     const [bio, setBio] = useState(user.bio)
     const [industry, setIndustry] = useState(user.industry.industry)
     const [username, setUsername] = useState(user.username)
+    const [userMeetings, setUserMeetings] = useState([])
 
       //Sets new industry ID when selected industry is changed on user dashboard
       useEffect(() => { 
@@ -18,8 +19,17 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
         if (event.key === "Enter" || event.key === "Escape") {
         event.target.blur();
         }
-        // meetings.map(meeting => console.log(meeting.meeting.toLocaleString()))
       }
+
+      //Grab selected meetings when meetings is added to on the connections page
+      useEffect(() => {
+            if (meetings !== []) { 
+                const selectedMeetings = meetings.filter(meeting => { 
+                    return meeting.user.id === user.id
+                })
+                setUserMeetings(selectedMeetings)
+            }
+        }, [meetings])
 
       function handleSubmit(e) { 
         e.preventDefault()
@@ -86,9 +96,12 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
                 </EditSelect>
             </Wrapper>
             <Wrapper>
-                <Button bg ='#000080' color='#fff' type="submit">Submit Changes</Button>
+                <Button bg ='#4F646F' color='#F4FAFF' type="submit">Submit Changes</Button>
             </Wrapper>
             </form>
+            {userMeetings.map(userMeeting => { 
+                return <MeetingCard userMeeting={userMeeting} key={userMeeting.id} setMeetings={setMeetings}/>
+            })}
         </div>
   )
 }
@@ -96,8 +109,9 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
 export default Dashboard
 
 const Header = styled.h1`
+    font-family: 'Lato', sans-serif;
     font-size: 3rem;
-    color: #ADD8E6;
+    color: #B7ADCF;
     margin: 20px;
 `
 
@@ -109,12 +123,15 @@ const Wrapper = styled.section`
 `;
 
 const H2 = styled.h2`
+    font-family: 'Lato', sans-serif;
     margin-left: 30px;
     padding-top: 15px;
     display: flex;
+    color: #4F646F;
 `
 
 const EditTextArea = styled.textarea`
+    font-family: 'Lato', sans-serif;
     rows={1};
     border: 1px solid rgba(50, 115, 220, 0.2);
     border-radius: 12px;
@@ -126,9 +143,11 @@ const EditTextArea = styled.textarea`
     margin-top: 30px;
     margin-left: 40px;
     padding-top: 10px;
-    padding-left: 10px
+    padding-left: 10px;
+    background-color: #DEE7E7;
     `
 const EditInput = styled.input`
+    font-family: 'Lato', sans-serif;
     border: 1px solid rgba(50, 115, 220, 0.2);
     border-radius: 12px;
     display: flex;
@@ -138,10 +157,12 @@ const EditInput = styled.input`
     font-size: 1.2rem;
     margin-top: 30px;
     margin-left: 10px;
-    padding-left: 10px
+    padding-left: 10px; 
+    background-color: #DEE7E7;
 `
 
 const EditSelect = styled.select`
+    font-family: 'Lato', sans-serif;
     border: 1px solid rgba(50, 115, 220, 0.2);
     border-radius: 12px;
     display: flex;
@@ -151,5 +172,6 @@ const EditSelect = styled.select`
     font-size: 1.2rem;
     margin-top: 30px;
     margin-left: 10px;
-    padding-left: 10px
+    padding-left: 10px; 
+    background-color: #DEE7E7;
 `
