@@ -1,4 +1,4 @@
-import React, {useState} from 'react'; 
+import React, {useEffect, useState} from 'react'; 
 import {useHistory} from "react-router-dom"
 import styled from 'styled-components';
 import FormDiv from '../styles/FormDiv';
@@ -7,7 +7,7 @@ import Input from '../styles/Input';
 import Button from '../styles/Button';
 import Error from '../styles/Error';
 
-function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
+function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries, isUser, setIsUser}) {
     const [fullName, setFullName] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -30,17 +30,33 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) 
             formData.append('industry_id', parseInt(selectedIndustryId))
             formData.append('image', image)
             formData.append('bio', bio)
-        fetch('/signup', { 
-            method: "POST", 
-            body: formData
-        }).then(r => { 
-            setIsLoading(false)
-            if (r.ok) { 
-                r.json().then(user => onLogin(user))
-            } else { 
-                r.json().then(error => setErrors(error.errors))
-            }
-        })
+        if (isUser === "User") { 
+            fetch('/user/signup', { 
+                method: "POST", 
+                body: formData
+            }).then(r => { 
+                setIsLoading(false)
+                if (r.ok) { 
+                    r.json().then(user => onLogin(user))
+                } else { 
+                    r.json().then(error => setErrors(error.errors))
+                }
+            })
+        }
+        else if (isUser === "Professional") { 
+            fetch('/professional/signup', { 
+                method: "POST", 
+                body: formData
+            }).then(r => { 
+                setIsLoading(false)
+                if (r.ok) { 
+                    r.json().then(user => onLogin(user))
+                } else { 
+                    r.json().then(error => setErrors(error.errors))
+                }
+            })
+            .catch( error => console.log(error.message))
+        }
         history.push("/dashboard")
     }
 
@@ -81,6 +97,14 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) 
                 value={passwordConfirmation}
                 onChange={(e => setPasswordConfirmation(e.target.value))}
             />
+        </FormDiv>
+        <FormDiv> 
+            <Label>Signing up as user or professional?</Label>
+            <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => setIsUser(e.target.value)}>
+                <option value="default" disabled>Choose here</option>
+                <option >User</option>
+                <option >Professional</option>
+            </Select>
         </FormDiv>
         <FormDiv>
             <Label>Upload profile photo: </Label>

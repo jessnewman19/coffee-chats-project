@@ -1,9 +1,12 @@
 import React from 'react'; 
-import {Nav, NavLink, Logo} from '../styles/Nav'; 
+import {UserContext} from "../context/UserProvider";
+
+//Import styled components
+import {Nav, NavLink} from '../styles/Nav'; 
 import Button from '../styles/Button';
 import NavBarContainer from '../styles/NavBarContainer';
 
-function NavBar({setUser}) {
+function NavBar({setUser, isUser}) {
 
     function handleLogout() { 
         fetch("/logout", { 
@@ -11,7 +14,7 @@ function NavBar({setUser}) {
         })
         .then(r => { 
             if (r.ok) { 
-                setUser(null)
+                setUser(UserContext)
             }
         })
     }
@@ -22,9 +25,7 @@ function NavBar({setUser}) {
             <NavLink to="dashboard">
                 Dashboard
             </NavLink>
-            <NavLink to="connections">
-                Connections
-            </NavLink>
+            {isUser === "User" ? <NavLink to="connections">Connections</NavLink> : <NavLink to="pending">Pending</NavLink>}
             <NavLink to="about">
                 About
             </NavLink>

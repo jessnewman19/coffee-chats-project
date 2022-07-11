@@ -10,11 +10,12 @@ class ApplicationController < ActionController::API
     private 
   
     #Authorize user is logged in before performing anything 
-  
-    #Errors are in array brackets so they can be parsed by the front end
-  
     def authorize 
-      @current_user = User.find_by(id: session[:user_id])
+      if session[:user_id]
+        @current_user = User.find_by(id: session[:user_id])
+      elsif session[:professional_id]
+        @current_user = Professional.find_by(id: session[:professional_id])
+      end
       render json: {errors: ["Not authorized"]}, status: :unauthorized unless @current_user 
     end
   
@@ -23,7 +24,7 @@ class ApplicationController < ActionController::API
     end
 
     def not_found 
-      render json: { error: "Not found" }, status: 404
+      render json: { errors: "Not found" }, status: 404
   end
   
 end

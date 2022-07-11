@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import ConnectionsCard from './ConnectionsCard'
 import styled from 'styled-components'
 
-function Connections({user, setMeetings, meetings}) {
+function Connections({user, setMeetings, meetings, isUser}) {
+
     const [professionals, setProfessionals] = useState([])
     const [selectedProfessionals, setSelectedProfessionals] = useState([])
 

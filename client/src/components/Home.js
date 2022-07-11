@@ -4,9 +4,9 @@ import Signup from './Signup';
 import styled from 'styled-components'
 import Button from '../styles/Button';
 
-function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
+function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isUser, setIsUser}) {
     const [showLogin, setShowLogin] = useState(true);
-
+  
    return (
     <div style={{display: 'flex'}}>
       <VisualWrapper>
@@ -15,7 +15,7 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
           <Header>Welcome</Header>
           {showLogin ? (
               <>
-              <Login onLogin={onLogin} />
+              <Login onLogin={onLogin} isUser={isUser} setIsUser={setIsUser}/>
               <Divider />
               <p>
                   Don't have an account? &nbsp;
@@ -26,11 +26,11 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
               </>
         ) : (
               <>
-                  <Signup onLogin={onLogin} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} />
+                  <Signup onLogin={onLogin} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} isUser={isUser} setIsUser={setIsUser}/>
                   <Divider />
                   <p>
                   Already have an account? &nbsp;
-                  <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(true)}> Log in</Button>
+                  <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(true)} isUser={isUser}> Log in</Button>
                   </p>
               </>
           )
