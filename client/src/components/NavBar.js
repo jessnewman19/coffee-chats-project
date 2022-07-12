@@ -1,5 +1,4 @@
 import React from 'react'; 
-import {UserContext} from "../context/UserProvider";
 
 //Import styled components
 import {Nav, NavLink} from '../styles/Nav'; 
@@ -14,7 +13,7 @@ function NavBar({setUser, isUser}) {
         })
         .then(r => { 
             if (r.ok) { 
-                setUser(UserContext)
+                setUser(null)
             }
         })
     }
@@ -25,7 +24,7 @@ function NavBar({setUser, isUser}) {
             <NavLink to="dashboard">
                 Dashboard
             </NavLink>
-            {isUser === "User" ? <NavLink to="connections">Connections</NavLink> : <NavLink to="pending">Pending</NavLink>}
+            {isUser === "User" ? <NavLink to="connections">Connections</NavLink> : null}
             <NavLink to="about">
                 About
             </NavLink>

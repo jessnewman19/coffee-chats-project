@@ -8,6 +8,12 @@ class MeetingsController < ApplicationController
         meeting = Meeting.find(params[:id])
         render json: :meeting
     end
+
+    def update 
+        meeting = Meeting.find(params[:id])
+        meeting.update(meeting_params)
+        render json: meeting
+    end
     
     def create
         new_meeting = @current_user.meetings.create!(meeting_params)
@@ -23,7 +29,7 @@ class MeetingsController < ApplicationController
     private 
 
     def meeting_params
-        params.permit(:meeting_date, :meeting_time, :professional_id)
+        params.permit(:meeting_date, :meeting_time, :professional_id, :is_approved)
     end 
 
 end

@@ -4,7 +4,7 @@ import Button from '../styles/Button';
 import styled from 'styled-components';
 import MeetingCard from './MeetingCard';
 
-function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings, setMeetings}) {
+function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings, setMeetings, isUser, setIsApproved, isApproved}) {
     const [bio, setBio] = useState(user.bio)
     const [industry, setIndustry] = useState(user.industry.industry)
     const [username, setUsername] = useState(user.username)
@@ -21,7 +21,7 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
         }
       }
 
-      //Grab selected meetings when meetings is added to on the connections page
+      //Grab meetings for specific user every time the meetings variable is changed
       useEffect(() => {
             if (meetings !== []) { 
                 const selectedMeetings = meetings.filter(meeting => { 
@@ -33,24 +33,46 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
 
       function handleSubmit(e) { 
         e.preventDefault()
-        fetch(`/users/${user.id}`, { 
-            method: "PATCH", 
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body: JSON.stringify({ 
-                bio, 
-                username, 
-                industry_id: parseInt(selectedIndustryId),
-            }),
-        }).then((r) => { 
-            if (r.ok) { 
-                r.json().then(user => setUser(user))
-                alert("Changes have been made!")
-            } else { 
-                r.json().then(err => console.log(err.errors))
-            }
-        })
+        if (isUser === "User") { 
+            fetch(`/users/${user.id}`, { 
+                method: "PATCH", 
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                body: JSON.stringify({ 
+                    bio, 
+                    username, 
+                    industry_id: parseInt(selectedIndustryId),
+                }),
+            }).then((r) => { 
+                if (r.ok) { 
+                    r.json().then(user => setUser(user))
+                    alert("Changes have been made!")
+                } else { 
+                    r.json().then(err => console.log(err.errors))
+                }
+            })
+        } else { 
+            fetch(`/professionals/${user.id}`, { 
+                method: "PATCH", 
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                body: JSON.stringify({ 
+                    bio, 
+                    username, 
+                    industry_id: parseInt(selectedIndustryId),
+                }),
+            }).then((r) => { 
+                if (r.ok) { 
+                    r.json().then(user => setUser(user))
+                    alert("Changes have been made!")
+                } else { 
+                    r.json().then(err => console.log(err.errors))
+                }
+            })
+        }
+        
       }
 
   return (
@@ -98,9 +120,10 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
             <Wrapper>
                 <Button bg ='#4F646F' color='#F4FAFF' type="submit">Submit Changes</Button>
             </Wrapper>
+            {isUser === "User" ? <H3>Scheduled meetings below: </H3> : <H3>Scheduled and pending meetings below:</H3>}
             </form>
             {userMeetings.map(userMeeting => { 
-                return <MeetingCard userMeeting={userMeeting} key={userMeeting.id} setMeetings={setMeetings}/>
+                return <MeetingCard userMeeting={userMeeting} key={userMeeting.id} setMeetings={setMeetings} isUser={isUser} setIsApproved={setIsApproved} isApproved={isApproved} meetings={meetings}/>
             })}
         </div>
   )
@@ -112,14 +135,16 @@ const Header = styled.h1`
     font-family: 'Lato', sans-serif;
     font-size: 3rem;
     color: #B7ADCF;
-    margin: 20px;
+    text-align: center;
+    margin-top: 30px;
 `
 
 const Wrapper = styled.section`
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 16px;
-  display: flex;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 16px;
+    display: flex;
+    align-items: center;
 `;
 
 const H2 = styled.h2`
@@ -140,7 +165,7 @@ const EditTextArea = styled.textarea`
     flex-wrap: wrap;
     flex-grow: 100;
     font-size: 1rem;
-    margin-top: 30px;
+    margin-top: 40px;
     margin-left: 40px;
     padding-top: 10px;
     padding-left: 10px;
@@ -152,10 +177,11 @@ const EditInput = styled.input`
     border-radius: 12px;
     display: flex;
     align-content: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     flex-grow: 100;
     font-size: 1.2rem;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-left: 10px;
     padding-left: 10px; 
     background-color: #DEE7E7;
@@ -170,8 +196,17 @@ const EditSelect = styled.select`
     flex-wrap: wrap;
     flex-grow: 100;
     font-size: 1.2rem;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-left: 10px;
     padding-left: 10px; 
     background-color: #DEE7E7;
+`
+
+const H3 = styled.h3`
+    font-family: 'Lato', sans-serif;
+    text-size: 10px;
+    display: flex;
+    height: 30px;
+    margin: 10px auto;
+    max-width: 54%;
 `

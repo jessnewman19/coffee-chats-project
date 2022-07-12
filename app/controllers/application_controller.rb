@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
     #Authorize user is logged in before performing anything 
     def authorize 
       if session[:user_id]
-        @current_user = User.find_by(id: session[:user_id])
+        @current_user = User.find(session[:user_id])
       elsif session[:professional_id]
         @current_user = Professional.find_by(id: session[:professional_id])
       end

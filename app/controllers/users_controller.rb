@@ -12,14 +12,12 @@ class UsersController < ApplicationController
         render json: user, status: :created 
     end
 
-    #Finds user by id saved in session hash
-    #@current_user defined in the application controller
-    def show 
+    def update
+        @current_user.update(user_params)
         render json: @current_user
     end
 
-    def update
-        @current_user.update(update_params)
+    def show 
         render json: @current_user
     end
 
@@ -29,8 +27,8 @@ class UsersController < ApplicationController
         params.permit(:full_name, :username, :password, :password_confirmation, :industry_id, :image, :bio).select {|x,v| v.present?}
     end
 
-    def update_params 
-        params.permit(:bio, :username, :industry_id)
-    end
+    # def update_params 
+    #     params.permit(:bio, :username, :industry_id)
+    # end
 
 end

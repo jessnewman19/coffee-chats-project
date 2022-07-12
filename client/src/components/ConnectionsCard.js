@@ -28,7 +28,7 @@ const theme = createTheme({
     },
   });
 
-function ConnectionsCard({professional, setMeetings, meetings}) {
+function ConnectionsCard({professional, setMeetings, meetings, isApproved, setIsApproved}) {
     const [meeting, setMeeting] = useState(new Date('2022-08-18T21:11:54'))
     const [meetingDate, setMeetingDate] = useState("")
     const [meetingTime, setMeetingTime] = useState("")
@@ -38,10 +38,11 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
         setMeeting(newValue)
         setMeetingDate(newValue.toDateString())
         setMeetingTime(newValue.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))
-      };
+      }
 
     const handleSubmit = (e) => { 
         e.preventDefault()
+        setIsApproved(false)
         fetch('/meetings', { 
             method: "POST", 
             headers: { 
@@ -50,6 +51,7 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
             body: JSON.stringify({
                 meeting_date: meetingDate, 
                 meeting_time: meetingTime, 
+                is_approved: isApproved,
                 professional_id: professional.id})
         }).then((r) => { 
             if (r.ok) { 
@@ -95,11 +97,12 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
 export default ConnectionsCard
 
 const Wrapper = styled.section`
-    max-width: 1000px;
-    margin: 25px auto;
-    padding: 16px;
+    width: 50%;
+    margin: 40px auto;
+    padding: 30px;
     display: flex;
     border-radius: 15px;
+    background-color: #F4FAFF;
     border: 1px solid rgba(183,173,207, 0.2);
     box-shadow: 12px 12px 2px 1px rgba(183,173,207, .9);
 `
@@ -154,6 +157,7 @@ const Button = styled.button`
     font-size: 16px;
     font-weight: 700;
     padding: 10px 40px;
+    margin-top: 10px;
     background-color: ${({bg}) => bg || '#fff'};
     color: ${({color}) => color || '#333'};
 

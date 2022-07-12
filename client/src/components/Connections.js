@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ConnectionsCard from './ConnectionsCard'
 import styled from 'styled-components'
 
-function Connections({user, setMeetings, meetings, isUser}) {
+function Connections({user, setMeetings, meetings, isUser, isApproved, setIsApproved}) {
 
     const [professionals, setProfessionals] = useState([])
     const [selectedProfessionals, setSelectedProfessionals] = useState([])
@@ -25,7 +25,7 @@ function Connections({user, setMeetings, meetings, isUser}) {
   return (
     <div>
         <H1>{`Selected industry: ${user.industry.industry}`}</H1>
-        {selectedProfessionals.map(professional => <ConnectionsCard key={professional.id} professional={professional} setMeetings={setMeetings} meetings={meetings}/>)}
+        {selectedProfessionals.map(professional => <ConnectionsCard key={professional.id} professional={professional} setMeetings={setMeetings} meetings={meetings} isApproved={isApproved} setIsApproved={setIsApproved}/>)}
     </div>
   )
 }

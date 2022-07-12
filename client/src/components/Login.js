@@ -78,8 +78,8 @@ function Login({onLogin, isUser, setIsUser}) {
             <Label>User or professional?</Label>
             <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => setIsUser(e.target.value)}>
                 <option value="default" disabled>Choose here</option>
-                <option >User</option>
-                <option >Professional</option>
+                <option>User</option>
+                <option>Professional</option>
             </Select>
         </FormDiv>
         <FormDiv> 
