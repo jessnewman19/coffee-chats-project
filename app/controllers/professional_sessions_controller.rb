@@ -8,7 +8,7 @@ class ProfessionalSessionsController < ApplicationController
             session[:professional_id] = professional.id
             render json: professional, status: :created
         else
-            render json: { error: "Invalid username or password" }, status: :unauthorized
+            render json: { errors: ["Invalid username or password"]}, status: :unauthorized
         end
     end
 

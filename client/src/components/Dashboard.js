@@ -11,18 +11,21 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
     const [userMeetings, setUserMeetings] = useState([])
     const userStatus = localStorage.getItem('isUser')
 
-    // console.log(userMeetings)
-    // console.log(meetings)
+    console.log(meetings)
     
     useEffect(() => { 
-        const newMeetings = meetings.filter(meeting => { 
-            console.log(meeting.user.id)
-            console.log(user)
-            return meeting.user.id === user.id
-        })
-        console.log(newMeetings)
-        setUserMeetings(newMeetings)
-    }, [])
+        if (userStatus === "User") { 
+            const newMeetings = meetings.filter(meeting => { 
+                return meeting.user.id === user.id
+            })
+            setUserMeetings(newMeetings)
+        } else if (userStatus == "Professional") { 
+            const newMeetings = meetings.filter(meeting => { 
+                return meeting.professional.id === user.id
+            })
+            setUserMeetings(newMeetings)
+        }
+    }, [meetings])
 
       //Sets new industry ID when selected industry is changed on user dashboard
       useEffect(() => { 
@@ -174,6 +177,8 @@ const EditTextArea = styled.textarea`
     padding-top: 10px;
     padding-left: 10px;
     background-color: #DEE7E7;
+    height: 240px; 
+    width: 430px;
     `
 const EditInput = styled.input`
     font-family: 'Lato', sans-serif;

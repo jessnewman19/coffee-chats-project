@@ -6,4 +6,9 @@ class Professional < ApplicationRecord
   belongs_to :industry
   has_many :meetings 
   has_many :users, through: :meetings
+
+  validates :full_name, presence: true
+  validates :username, presence: true
+  validates :bio, presence: true
+
 end

@@ -7,8 +7,7 @@ class ProfessionalsController < ApplicationController
     end
 
     def show 
-        professional = Professional.find(params[:id])
-        render json: :professional
+        render json: @current_user
     end
 
     def create 

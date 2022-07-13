@@ -20,7 +20,11 @@ function Login({onLogin}) {
         e.preventDefault()
         setIsLoading(true)
         const userStatus = localStorage.getItem('isUser')
-        if (userStatus === "User") { 
+
+        if (userStatus === null) { 
+            alert('Please select user or professional from dropdown')
+            setIsLoading(false)
+        } else if (userStatus === "User") { 
             fetch("/login", { 
                 method: "POST",
                 headers: { 

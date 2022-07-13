@@ -1,10 +1,9 @@
 import React, {useState} from 'react'; 
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import {IoLogoLinkedin} from "react-icons/io5"; 
+
 // import Calendar from 'react-calendar'; 
 // import 'react-calendar/dist/Calendar.css';
-
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -69,11 +68,6 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
         <Section> 
             <H3>{professional.full_name}</H3>
             <div>{professional.bio}</div>
-            <Logo>
-                <a href={`${professional.linkedin}`} target="_blank">
-                    <IoLogoLinkedin />
-                </a>
-            </Logo>
         </Section>
         <Form onSubmit={handleSubmit}> 
             <ThemeProvider theme={theme}>

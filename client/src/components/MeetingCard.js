@@ -48,7 +48,7 @@ function MeetingCard({userMeeting, setMeetings, meetings}) {
                 <Section> 
                     <H3>{userMeeting.meeting_date} @ {userMeeting.meeting_time}</H3>
                         <div>Meeting with: {userMeeting.professional.full_name}</div>
-                    {userMeeting.is_approved === false ? <div>Pending approval</div> : <div>Meeting has been approved!</div>}
+                    {userMeeting.is_approved === false ? <div>Pending approval</div> : <div>Meeting has been confirmed!</div>}
                 </Section>
                 <Button onClick={() => handleDelete(userMeeting)} bg ='#4F646F' color='#F4FAFF'>Delete meeting</Button>
             </Wrapper> 

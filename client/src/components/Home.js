@@ -9,10 +9,9 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isU
   
    return (
     <div style={{display: 'flex'}}>
-      <VisualWrapper>
-      </VisualWrapper>
       <LoginWrapper>
-          <Header>Welcome</Header>
+          <Header>Welcome to coffee chats!</Header>
+          <P style={{color: '#4F646F', padding: '10px', margin: 0}}>Please log in or sign up below</P>
           {showLogin ? (
               <>
               <Login onLogin={onLogin} isUser={isUser} setIsUser={setIsUser}/>
@@ -43,26 +42,18 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isU
 const Header = styled.h1`
     font-family: 'Lato', sans-serif;
     font-size: 3rem;
-    color: #ADD8E6;
+    color: #4F646F;
     margin: 8px 0 16px;
 `
-const VisualWrapper=styled.section`
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    background-image: url("https://images.unsplash.com/photo-1573884054824-95ec03df17da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80");
-    background-position: 50% 50%;
-    background-size: cover;
-    `
 
 const LoginWrapper = styled.section`
-    width: 50vw;
+    width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
-    background-color: #fcfdff;
+    background: linear-gradient(#F4FAFF, #DEE7E7, #B7ADCF, #4F646F, #535657);
 `;
 
 const Divider = styled.hr`

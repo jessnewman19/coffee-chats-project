@@ -31,7 +31,10 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) 
             formData.append('industry_id', parseInt(selectedIndustryId))
             formData.append('image', image)
             formData.append('bio', bio)
-        if (userStatus === "User") { 
+        if (userStatus === null) { 
+            alert('Please select user or professional from dropdown')
+            setIsLoading(false)
+        } else if (userStatus === "User") { 
             fetch('/user/signup', { 
                 method: "POST", 
                 body: formData
