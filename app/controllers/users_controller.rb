@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
-    #User can create login before authorizing credentials
+
     skip_before_action :authorize, only: :create
 
     def index 
         render json: User.all
+    end
+
+    def show 
+        user = User.find(params[:id])
+        render json: user
     end
     
     def create 
@@ -17,18 +22,10 @@ class UsersController < ApplicationController
         render json: @current_user
     end
 
-    def show 
-        render json: @current_user
-    end
-
     private 
     
     def user_params 
         params.permit(:full_name, :username, :password, :password_confirmation, :industry_id, :image, :bio).select {|x,v| v.present?}
     end
-
-    # def update_params 
-    #     params.permit(:bio, :username, :industry_id)
-    # end
 
 end

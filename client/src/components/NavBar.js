@@ -5,7 +5,9 @@ import {Nav, NavLink} from '../styles/Nav';
 import Button from '../styles/Button';
 import NavBarContainer from '../styles/NavBarContainer';
 
-function NavBar({setUser, isUser}) {
+function NavBar({setUser}) {
+    const userStatus = localStorage.getItem('isUser')
+
 
     function handleLogout() { 
         fetch("/logout", { 
@@ -14,6 +16,7 @@ function NavBar({setUser, isUser}) {
         .then(r => { 
             if (r.ok) { 
                 setUser(null)
+                localStorage.removeItem('isUser')
             }
         })
     }
@@ -24,7 +27,7 @@ function NavBar({setUser, isUser}) {
             <NavLink to="dashboard">
                 Dashboard
             </NavLink>
-            {isUser === "User" ? <NavLink to="connections">Connections</NavLink> : null}
+            {userStatus === "User" ? <NavLink to="connections">Connections</NavLink> : null}
             <NavLink to="about">
                 About
             </NavLink>

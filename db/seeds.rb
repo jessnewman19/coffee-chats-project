@@ -9,10 +9,8 @@ Industry.create([
     {industry: "Software Development"},
     {industry: "App Development"},
     {industry: "Cybersecurity"},
-    {industry: "Computer Systems"},
     {industry: "Product Management"},
     {industry: "Design"},
-    {industry: "Information Technology"}
 ])
 
 # puts "👩🏼‍💻 Seeding professionals..."

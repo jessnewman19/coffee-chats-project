@@ -28,8 +28,8 @@ const theme = createTheme({
     },
   });
 
-function ConnectionsCard({professional, setMeetings, meetings, isApproved, setIsApproved}) {
-    const [meeting, setMeeting] = useState(new Date('2022-08-18T21:11:54'))
+function ConnectionsCard({professional, setMeetings, meetings}) {
+    const [meeting, setMeeting] = useState(new Date('2022-07-12T21:00:00'))
     const [meetingDate, setMeetingDate] = useState("")
     const [meetingTime, setMeetingTime] = useState("")
     const history = useHistory()
@@ -40,9 +40,9 @@ function ConnectionsCard({professional, setMeetings, meetings, isApproved, setIs
         setMeetingTime(newValue.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))
       }
 
+      //Submit meeting request
     const handleSubmit = (e) => { 
         e.preventDefault()
-        setIsApproved(false)
         fetch('/meetings', { 
             method: "POST", 
             headers: { 
@@ -51,7 +51,7 @@ function ConnectionsCard({professional, setMeetings, meetings, isApproved, setIs
             body: JSON.stringify({
                 meeting_date: meetingDate, 
                 meeting_time: meetingTime, 
-                is_approved: isApproved,
+                is_approved: false,
                 professional_id: professional.id})
         }).then((r) => { 
             if (r.ok) { 
@@ -65,7 +65,7 @@ function ConnectionsCard({professional, setMeetings, meetings, isApproved, setIs
 
   return (
     <Wrapper>
-        <Image src={`${professional.image_url}`} alt="Profile photo" />
+        <Image src={professional.image} alt="Profile photo" />
         <Section> 
             <H3>{professional.full_name}</H3>
             <div>{professional.bio}</div>
@@ -136,16 +136,16 @@ const H3 = styled.h3`
     text-size: 10px;
     display: flex;
     height: 30px;
+    padding-bottom: 15px;
 `
 
 const Form = styled.form`
     font-family: 'Lato', sans-serif;
-    width: vw;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin: 0px 100px;
+    margin: 0px 10px 0px 20px;
 `
 
 const Button = styled.button`

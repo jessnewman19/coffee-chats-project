@@ -4,11 +4,25 @@ import Button from '../styles/Button';
 import styled from 'styled-components';
 import MeetingCard from './MeetingCard';
 
-function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings, setMeetings, isUser, setIsApproved, isApproved}) {
+function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, industries, meetings, setMeetings}) {
     const [bio, setBio] = useState(user.bio)
     const [industry, setIndustry] = useState(user.industry.industry)
     const [username, setUsername] = useState(user.username)
     const [userMeetings, setUserMeetings] = useState([])
+    const userStatus = localStorage.getItem('isUser')
+
+    // console.log(userMeetings)
+    // console.log(meetings)
+    
+    useEffect(() => { 
+        const newMeetings = meetings.filter(meeting => { 
+            console.log(meeting.user.id)
+            console.log(user)
+            return meeting.user.id === user.id
+        })
+        console.log(newMeetings)
+        setUserMeetings(newMeetings)
+    }, [])
 
       //Sets new industry ID when selected industry is changed on user dashboard
       useEffect(() => { 
@@ -21,19 +35,9 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
         }
       }
 
-      //Grab meetings for specific user every time the meetings variable is changed
-      useEffect(() => {
-            if (meetings !== []) { 
-                const selectedMeetings = meetings.filter(meeting => { 
-                    return meeting.user.id === user.id
-                })
-                setUserMeetings(selectedMeetings)
-            }
-        }, [meetings])
-
       function handleSubmit(e) { 
         e.preventDefault()
-        if (isUser === "User") { 
+        if (userStatus === "User") { 
             fetch(`/users/${user.id}`, { 
                 method: "PATCH", 
                 headers: {
@@ -52,7 +56,7 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
                     r.json().then(err => console.log(err.errors))
                 }
             })
-        } else { 
+        } else if (userStatus === "Professional") { 
             fetch(`/professionals/${user.id}`, { 
                 method: "PATCH", 
                 headers: {
@@ -120,10 +124,10 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
             <Wrapper>
                 <Button bg ='#4F646F' color='#F4FAFF' type="submit">Submit Changes</Button>
             </Wrapper>
-            {isUser === "User" ? <H3>Scheduled meetings below: </H3> : <H3>Scheduled and pending meetings below:</H3>}
+            {userStatus === "User" ? <H3>Scheduled meetings below: </H3> : <H3>Scheduled and pending meetings below:</H3>}
             </form>
             {userMeetings.map(userMeeting => { 
-                return <MeetingCard userMeeting={userMeeting} key={userMeeting.id} setMeetings={setMeetings} isUser={isUser} setIsApproved={setIsApproved} isApproved={isApproved} meetings={meetings}/>
+                return <MeetingCard userMeeting={userMeeting} key={userMeeting.id} setMeetings={setMeetings} meetings={meetings}/>
             })}
         </div>
   )

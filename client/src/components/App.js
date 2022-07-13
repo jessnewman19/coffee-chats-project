@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect} from "react";
 import GlobalStyles from "../styles/Global";
 import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
@@ -11,18 +11,15 @@ import About from "./About";
 function App() {
   const [user, setUser] = useState(null)
   const [isUser, setIsUser] = useState("")
-  const [isApproved, setIsApproved] = useState(false)
   const [industries, setIndustries] = useState([])
   const [selectedIndustry, setSelectedIndustry] = useState("")
   const [selectedIndustryId, setSelectedIndustryId] = useState("")
   const [meetings, setMeetings] = useState([])
 
-  console.log(isUser)
-  console.log(meetings)
-
   useEffect(() => {
-    if (isUser === "User") { 
-      fetch('/me')
+    const userStatus = localStorage.getItem('isUser')
+    if (userStatus === "User") { 
+    fetch('/me')
     .then(res => {
       if (res.ok) {
         res.json().then(user => setUser(user))
@@ -30,7 +27,7 @@ function App() {
         console.log('fetch failed')
       }
     })
-    } else if (isUser === "Professional") { 
+    } else if (userStatus === "Professional") { 
       fetch('/professional/me')
       .then(res => {
         if (res.ok) {
@@ -39,6 +36,7 @@ function App() {
           console.log('fetch failed')
         }
       })
+      .catch(error => console.log(error.message));
     }
   }, [])
 
@@ -49,6 +47,7 @@ function App() {
       .then(r => { 
           r.json().then(industry => setIndustries(industry))
       })
+      .catch(error => console.log(error.message));
   }, [])
 
   //Run whenever selectedIndustry is populated
@@ -67,6 +66,7 @@ function App() {
       .then(r => { 
         r.json().then(meeting => setMeetings(meeting))
       })
+      .catch(error => console.log(error.message));
   }, [])
 
   //Handle whether to show signup or login page
@@ -78,10 +78,10 @@ function App() {
     <NavBar setUser={setUser} isUser={isUser}/>
         <Switch>
           <Route path="/dashboard">
-            <Dashboard setUser={setUser} user={user} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} meetings={meetings} setMeetings={setMeetings} isUser={isUser} setIsApproved={setIsApproved} isApproved={isApproved}/>
+            <Dashboard setUser={setUser} user={user} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} meetings={meetings} setMeetings={setMeetings} isUser={isUser}/>
           </Route>
           <Route path="/connections"> 
-            <Connections user={user} setMeetings={setMeetings} meetings={meetings} isUser={isUser} isApproved={isApproved} setIsApproved={setIsApproved}/>
+            <Connections user={user} setMeetings={setMeetings} meetings={meetings} isUser={isUser}/>
           </Route>
           <Route path="/about">
             {content.map((item, index) => (

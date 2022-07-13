@@ -17,6 +17,11 @@ class ProfessionalsController < ApplicationController
         render json: professional, status: :created 
     end
 
+    def update
+        @current_user.update(professional_params)
+        render json: @current_user
+    end
+
     private
 
     def professional_params 

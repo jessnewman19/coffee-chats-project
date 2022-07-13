@@ -9,7 +9,7 @@ import Input from '../styles/Input';
 import Button from '../styles/Button';
 import Error from '../styles/Error';
 
-function Login({onLogin, isUser, setIsUser}) {
+function Login({onLogin}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -19,7 +19,8 @@ function Login({onLogin, isUser, setIsUser}) {
  function handleSubmit(e) { 
         e.preventDefault()
         setIsLoading(true)
-        if (isUser === "User") { 
+        const userStatus = localStorage.getItem('isUser')
+        if (userStatus === "User") { 
             fetch("/login", { 
                 method: "POST",
                 headers: { 
@@ -34,7 +35,7 @@ function Login({onLogin, isUser, setIsUser}) {
                     r.json().then(error => setErrors(error.errors))
                 }
             })
-        } else if (isUser === "Professional") { 
+        } else if (userStatus === "Professional") { 
             fetch("/professional/login", { 
                 method: "POST",
                 headers: {
@@ -76,7 +77,7 @@ function Login({onLogin, isUser, setIsUser}) {
         </FormDiv>
         <FormDiv> 
             <Label>User or professional?</Label>
-            <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => setIsUser(e.target.value)}>
+            <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => localStorage.setItem('isUser', e.target.value)}>
                 <option value="default" disabled>Choose here</option>
                 <option>User</option>
                 <option>Professional</option>

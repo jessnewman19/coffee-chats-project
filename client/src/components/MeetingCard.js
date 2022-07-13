@@ -1,31 +1,34 @@
 import React from 'react'; 
 import styled from 'styled-components';
 
-function MeetingCard({userMeeting, setMeetings, isUser, isApproved, setIsApproved, meetings}) {
+function MeetingCard({userMeeting, setMeetings, meetings}) {
+    const userStatus = localStorage.getItem('isUser')
 
+    //Delete meeting from full array of meetings
+    //Full functionality
     function handleDelete(userMeeting) { 
         fetch(`/meetings/${userMeeting.id}`, { 
             method: "DELETE",
-        }).then((r) => { 
+        }).then(() => { 
             setMeetings((meetings) => 
                 meetings.filter(meeting => meeting.id !== userMeeting.id))
         })
     }
 
+    //Change persists on the back end!
     function handleApprove(userMeeting) {
-        //Set to true
-        setIsApproved(!isApproved)
         fetch(`/meetings/${userMeeting.id}`, {
             method: "PATCH", 
             headers: { 
                 "Content-Type": "application/json",
             }, 
             body: JSON.stringify({
-                is_approved: isApproved,
+                is_approved: true,
             }), 
         }).then(r => { 
             if (r.ok) { 
                 r.json().then(approvedMeeting => { 
+                    //Returns ALL MEETINGS 
                     const newMeetings = meetings.filter(meeting => { 
                         return meeting.id !== approvedMeeting.id
                     })
@@ -35,19 +38,17 @@ function MeetingCard({userMeeting, setMeetings, isUser, isApproved, setIsApprove
                 r.json().then(err => console.log(err.errors))
             }
         })
-        //reset to false
-        setIsApproved(!isApproved)
     }
 
   return (
     <div>
-        {isUser === "User" ? 
+        {userStatus === "User" ? 
         <>
             <Wrapper>
                 <Section> 
                     <H3>{userMeeting.meeting_date} @ {userMeeting.meeting_time}</H3>
                         <div>Meeting with: {userMeeting.professional.full_name}</div>
-                    {userMeeting.is_approved === false ? <div>Pending approval</div> : null}
+                    {userMeeting.is_approved === false ? <div>Pending approval</div> : <div>Meeting has been approved!</div>}
                 </Section>
                 <Button onClick={() => handleDelete(userMeeting)} bg ='#4F646F' color='#F4FAFF'>Delete meeting</Button>
             </Wrapper> 
@@ -70,7 +71,7 @@ function MeetingCard({userMeeting, setMeetings, isUser, isApproved, setIsApprove
 export default MeetingCard; 
 
 const Wrapper = styled.section`
-    width: 50%;
+    width: 60%;
     margin: 40px auto;
     padding: 30px;
     display: flex;
@@ -81,16 +82,16 @@ const Wrapper = styled.section`
 `
 
 const Section = styled.section`
-font-family: 'Lato', sans-serif;
-padding-left: 18px;
-width: 65%;
+    font-family: 'Lato', sans-serif;
+    padding-left: 18px;
+    width: 65%;
 `
 
 const H3 = styled.h3`
-font-family: 'Lato', sans-serif;
-text-size: 10px;
-display: flex;
-height: 30px;
+    font-family: 'Lato', sans-serif;
+    text-size: 10px;
+    display: flex;
+    height: 30px;
 `
 
 const Button = styled.button`

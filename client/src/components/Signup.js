@@ -7,7 +7,7 @@ import Input from '../styles/Input';
 import Button from '../styles/Button';
 import Error from '../styles/Error';
 
-function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries, isUser, setIsUser}) {
+function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
     const [fullName, setFullName] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -22,6 +22,7 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries, i
         e.preventDefault()
         setErrors([])
         setIsLoading(true)
+        const userStatus = localStorage.getItem('isUser')
         const formData = new FormData()
             formData.append('full_name', fullName)
             formData.append('username', username)
@@ -30,7 +31,7 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries, i
             formData.append('industry_id', parseInt(selectedIndustryId))
             formData.append('image', image)
             formData.append('bio', bio)
-        if (isUser === "User") { 
+        if (userStatus === "User") { 
             fetch('/user/signup', { 
                 method: "POST", 
                 body: formData
@@ -43,7 +44,7 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries, i
                 }
             })
         }
-        else if (isUser === "Professional") { 
+        else if (userStatus === "Professional") { 
             fetch('/professional/signup', { 
                 method: "POST", 
                 body: formData
@@ -100,7 +101,7 @@ function Signup({onLogin, selectedIndustryId, setSelectedIndustry, industries, i
         </FormDiv>
         <FormDiv> 
             <Label>Signing up as user or professional?</Label>
-            <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => setIsUser(e.target.value)}>
+            <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => localStorage.setItem('isUser', e.target.value)}>
                 <option value="default" disabled>Choose here</option>
                 <option >User</option>
                 <option >Professional</option>
