@@ -37,3 +37,5 @@ If you would like to check out a demo of the project, please [click here](https:
 * [@mui/lab & @mui/material](https://mui.com/material-ui/about-the-lab/)
 * [styled-components](https://styled-components.com/)
 
+*Project will not be deployed*
+
