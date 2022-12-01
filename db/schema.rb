@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_151403) do
   create_table "meetings", force: :cascade do |t|
     t.string "meeting_date"
     t.string "meeting_time"
+    t.boolean "is_approved"
     t.bigint "user_id", null: false
     t.bigint "professional_id", null: false
     t.datetime "created_at", null: false
@@ -60,12 +61,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_151403) do
   end
 
   create_table "professionals", force: :cascade do |t|
-    t.bigint "industry_id", null: false
     t.string "full_name"
-    t.string "image_url"
+    t.string "username"
+    t.string "password_digest"
+    t.bigint "industry_id", null: false
     t.string "bio"
-    t.string "linkedin"
-    t.string "current_company"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["industry_id"], name: "index_professionals_on_industry_id"

@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useHistory } from "react-router-dom"
 
 //styled components 
+import styled from 'styled-components';
 import FormDiv from '../styles/FormDiv';
 import Label from '../styles/Label';
 import Input from '../styles/Input';
@@ -18,20 +19,43 @@ function Login({onLogin}) {
  function handleSubmit(e) { 
         e.preventDefault()
         setIsLoading(true)
-        fetch("/login", { 
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({username, password}),
-        }).then(r => { 
+        const userStatus = localStorage.getItem('isUser')
+
+        if (userStatus === null) { 
+            alert('Please select user or professional from dropdown')
             setIsLoading(false)
-            if (r.ok) { 
-                r.json().then(user => onLogin(user))
-            } else { 
-                r.json().then(error => setErrors(error.errors))
-            }
-        })
+        } else if (userStatus === "User") { 
+            fetch("/login", { 
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({username, password}),
+            }).then(r => { 
+                setIsLoading(false)
+                if (r.ok) { 
+                    r.json().then(user => onLogin(user))
+                } else { 
+                    r.json().then(error => setErrors(error.errors))
+                }
+            })
+        } else if (userStatus === "Professional") { 
+            fetch("/professional/login", { 
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({username, password}),
+            }).then(r => {
+                setIsLoading(false)
+                if (r.ok) { 
+                    r.json().then(user => onLogin(user))
+                } else { 
+                    r.json().then(error => setErrors(error.errors))
+                }
+            })
+            .catch(error => console.log(error.message));
+        }
         history.push("/dashboard")
     }
 
@@ -56,6 +80,14 @@ function Login({onLogin}) {
             />
         </FormDiv>
         <FormDiv> 
+            <Label>User or professional?</Label>
+            <Select name = "isUser" id="isUser" defaultValue="default" onChange={(e) => localStorage.setItem('isUser', e.target.value)}>
+                <option value="default" disabled>Choose here</option>
+                <option>User</option>
+                <option>Professional</option>
+            </Select>
+        </FormDiv>
+        <FormDiv> 
             <Button type="submit" bg ='#4F646F' color='#F4FAFF'>
                 {isLoading ? "Loading..." : "Login"}
             </Button>
@@ -70,3 +102,16 @@ function Login({onLogin}) {
 }
 
 export default Login
+
+const Select = styled.select`
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background-color: #f3f3f4;
+    -webkit-appearance: auto;
+    width: 102%;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 8px;
+    background-color: #DEE7E7;
+    font-family: 'Lato', sans-serif;
+`

@@ -1,9 +1,13 @@
 import React from 'react'; 
-import {Nav, NavLink, Logo} from '../styles/Nav'; 
+
+//Import styled components
+import {Nav, NavLink} from '../styles/Nav'; 
 import Button from '../styles/Button';
 import NavBarContainer from '../styles/NavBarContainer';
 
 function NavBar({setUser}) {
+    const userStatus = localStorage.getItem('isUser')
+
 
     function handleLogout() { 
         fetch("/logout", { 
@@ -12,6 +16,7 @@ function NavBar({setUser}) {
         .then(r => { 
             if (r.ok) { 
                 setUser(null)
+                localStorage.removeItem('isUser')
             }
         })
     }
@@ -22,9 +27,7 @@ function NavBar({setUser}) {
             <NavLink to="dashboard">
                 Dashboard
             </NavLink>
-            <NavLink to="connections">
-                Connections
-            </NavLink>
+            {userStatus === "User" ? <NavLink to="connections">Connections</NavLink> : null}
             <NavLink to="about">
                 About
             </NavLink>

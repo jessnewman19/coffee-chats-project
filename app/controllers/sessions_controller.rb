@@ -13,8 +13,14 @@ class SessionsController < ApplicationController
     end
 
     def destroy 
-        session.delete :user_id 
-        head :no_content
+        if session[:user_id] 
+            session.delete :user_id 
+            head :no_content
+        elsif session[:professional_id]
+            session.delete :professional_id 
+            head :no_content
+        else 
+            render json: {errors: "No user logged in."}, status: 401
+        end
     end
-
 end

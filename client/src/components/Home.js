@@ -4,64 +4,62 @@ import Signup from './Signup';
 import styled from 'styled-components'
 import Button from '../styles/Button';
 
-function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries}) {
+function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isUser, setIsUser}) {
     const [showLogin, setShowLogin] = useState(true);
-
+  
    return (
     <div style={{display: 'flex'}}>
-      <VisualWrapper>
-      </VisualWrapper>
-      <LoginWrapper>
-          <Header>Welcome</Header>
+      <Wrapper>
           {showLogin ? (
               <>
-              <Login onLogin={onLogin} />
+              <Header>Welcome to coffee chats!</Header>
+            <P style={{color: '#4F646F', padding: '10px', margin: 0}}>Please log in or sign up below!</P>
+              <Login onLogin={onLogin} isUser={isUser} setIsUser={setIsUser}/>
               <Divider />
-              <p>
+              <P>
                   Don't have an account? &nbsp;
                   <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(false)}>
                   Sign Up
                   </Button>
-              </p>
+              </P>
               </>
         ) : (
               <>
-                  <Signup onLogin={onLogin} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} />
+                <P style={{color: '#4F646F', padding: '10px', marginTop: 100, fontSize: '2rem'}}>Please sign up below!</P>
+                  <Signup onLogin={onLogin} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} isUser={isUser} setIsUser={setIsUser}/>
                   <Divider />
-                  <p>
+                  <P>
                   Already have an account? &nbsp;
-                  <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(true)}> Log in</Button>
-                  </p>
+                  <Button bg ='#4F646F' color='#F4FAFF' onClick={() => setShowLogin(true)} isUser={isUser}> Log in</Button>
+                  </P>
               </>
           )
       }
-      </LoginWrapper>
-      </div>
+      </Wrapper>
+    </div>
   )
 }
 
 const Header = styled.h1`
     font-family: 'Lato', sans-serif;
     font-size: 3rem;
-    color: #ADD8E6;
+    color: #4F646F;
     margin: 8px 0 16px;
+    text-align: center;
 `
-const VisualWrapper=styled.section`
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    background-image: url("https://images.unsplash.com/photo-1573884054824-95ec03df17da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80");
-    background-position: 50% 50%;
-    background-size: cover;
-    `
 
-const LoginWrapper = styled.section`
-    width: 50vw;
-    height: 100vh;
+const Wrapper = styled.div`
+    left: 0; 
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    overflow-y:scroll;
     display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
+    background: linear-gradient(#F4FAFF, #DEE7E7, #B7ADCF, #4F646F, #535657);
 `;
 
 const Divider = styled.hr`
@@ -69,5 +67,9 @@ const Divider = styled.hr`
     border-bottom: 1px solid #ccc;
     margin: 10px 0;
 `;
+
+const P = styled.p`
+    font-family: 'Lato', sans-serif;  
+`
 
 export default Home
