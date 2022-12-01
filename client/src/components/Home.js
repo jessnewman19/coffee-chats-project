@@ -9,11 +9,11 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isU
   
    return (
     <div style={{display: 'flex'}}>
-      <LoginWrapper>
-          <Header>Welcome to coffee chats!</Header>
-          <P style={{color: '#4F646F', padding: '10px', margin: 0}}>Please log in or sign up below</P>
+      <Wrapper>
           {showLogin ? (
               <>
+              <Header>Welcome to coffee chats!</Header>
+            <P style={{color: '#4F646F', padding: '10px', margin: 0}}>Please log in or sign up below!</P>
               <Login onLogin={onLogin} isUser={isUser} setIsUser={setIsUser}/>
               <Divider />
               <P>
@@ -25,6 +25,7 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isU
               </>
         ) : (
               <>
+                <P style={{color: '#4F646F', padding: '10px', marginTop: 100, fontSize: '2rem'}}>Please sign up below!</P>
                   <Signup onLogin={onLogin} selectedIndustryId={selectedIndustryId} setSelectedIndustry={setSelectedIndustry} industries={industries} isUser={isUser} setIsUser={setIsUser}/>
                   <Divider />
                   <P>
@@ -34,7 +35,7 @@ function Home({onLogin, selectedIndustryId, setSelectedIndustry, industries, isU
               </>
           )
       }
-      </LoginWrapper>
+      </Wrapper>
     </div>
   )
 }
@@ -44,11 +45,16 @@ const Header = styled.h1`
     font-size: 3rem;
     color: #4F646F;
     margin: 8px 0 16px;
+    text-align: center;
 `
 
-const LoginWrapper = styled.section`
-    width: 100vw;
-    height: 100vh;
+const Wrapper = styled.div`
+    left: 0; 
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    overflow-y:scroll;
     display: flex;
     flex-direction: column;
     justify-content: center; 

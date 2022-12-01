@@ -28,7 +28,7 @@ const theme = createTheme({
   });
 
 function ConnectionsCard({professional, setMeetings, meetings}) {
-    const [meeting, setMeeting] = useState(new Date('2022-07-12T21:00:00'))
+    const [meeting, setMeeting] = useState(new Date('2022-09-14T21:00:00'))
     const [meetingDate, setMeetingDate] = useState("")
     const [meetingTime, setMeetingTime] = useState("")
     const history = useHistory()
@@ -81,8 +81,8 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
                     />
                     </Stack>
                 </LocalizationProvider>
-                <Button type="submit" bg ='#4F646F' color='#F4FAFF'>Submit</Button>
             </ThemeProvider>
+            <Button type="submit" bg ='#4F646F' color='#F4FAFF'>Submit</Button>
         </Form>
     </Wrapper>
   )
@@ -91,7 +91,7 @@ function ConnectionsCard({professional, setMeetings, meetings}) {
 export default ConnectionsCard
 
 const Wrapper = styled.section`
-    width: 50%;
+    width: 70%;
     margin: 40px auto;
     padding: 30px;
     display: flex;
@@ -100,29 +100,19 @@ const Wrapper = styled.section`
     border: 1px solid rgba(183,173,207, 0.2);
     box-shadow: 12px 12px 2px 1px rgba(183,173,207, .9);
 `
-
-const Section = styled.section`
-    font-family: 'Lato', sans-serif;
-    padding-left: 18px;
-    width: 40%;
-`
-
 const Image = styled.img`
     max-width: 10rem; 
     max-height: 10rem;
     border-radius: 50%;
     object-fit: fill;
-`
-
-const Logo = styled.div`
-    color: #0A66C2;
-    padding-top: 10px;
-    justify-content: flex-start;
     display: flex;
     align-items: center;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 800;
+`
+
+const Section = styled.section`
+    font-family: 'Lato', sans-serif;
+    padding-left: 18px;
+    width: 40%;
 `
 
 const H3 = styled.h3`
@@ -139,7 +129,7 @@ const Form = styled.form`
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin: 0px 10px 0px 20px;
+    margin: 0px 0px 0px 15px;
 `
 
 const Button = styled.button`
@@ -151,9 +141,9 @@ const Button = styled.button`
     font-size: 16px;
     font-weight: 700;
     padding: 10px 40px;
-    margin-top: 10px;
     background-color: ${({bg}) => bg || '#fff'};
     color: ${({color}) => color || '#333'};
+    flex-direction: column;
 
     &:hover{ 
         opacity: 0.8; 

@@ -10,8 +10,6 @@ function Dashboard({setUser, user, selectedIndustryId, setSelectedIndustry, indu
     const [username, setUsername] = useState(user.username)
     const [userMeetings, setUserMeetings] = useState([])
     const userStatus = localStorage.getItem('isUser')
-
-    console.log(meetings)
     
     useEffect(() => { 
         if (userStatus === "User") { 

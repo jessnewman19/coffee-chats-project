@@ -23,7 +23,6 @@ class MeetingsController < ApplicationController
           elsif session[:professional_id]
             @current_user = Professional.find_by(id: session[:professional_id])
         end
-        byebug
         new_meeting = @current_user.meetings.create!(meeting_params)
         render json: new_meeting, status: :created
     end

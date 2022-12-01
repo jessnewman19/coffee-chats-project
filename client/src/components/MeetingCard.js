@@ -15,7 +15,7 @@ function MeetingCard({userMeeting, setMeetings, meetings}) {
         })
     }
 
-    //Change persists on the back end!
+    //Change persists on the back end
     function handleApprove(userMeeting) {
         fetch(`/meetings/${userMeeting.id}`, {
             method: "PATCH", 
@@ -48,7 +48,7 @@ function MeetingCard({userMeeting, setMeetings, meetings}) {
                 <Section> 
                     <H3>{userMeeting.meeting_date} @ {userMeeting.meeting_time}</H3>
                         <div>Meeting with: {userMeeting.professional.full_name}</div>
-                    {userMeeting.is_approved === false ? <div>Pending approval</div> : <div>Meeting has been confirmed!</div>}
+                    {userMeeting.is_approved === false ? <div style={{fontStyle: 'italic', paddingTop: '5px'}}>Pending approval</div> : <div style={{fontWeight: 'bold', paddingTop: '5px'}}>Meeting has been confirmed!</div>}
                 </Section>
                 <Button onClick={() => handleDelete(userMeeting)} bg ='#4F646F' color='#F4FAFF'>Delete meeting</Button>
             </Wrapper> 
